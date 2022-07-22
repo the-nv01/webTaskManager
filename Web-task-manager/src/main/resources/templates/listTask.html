@@ -13,7 +13,7 @@
 </head>
 <body>
     <div>
-      <h3>List task</h3>
+      <h3 style="text-align: center; margin-bottom: 4rem;">List task</h3>
       <div>
               <div style="overflow: auto">
                 <div class="headerButton" style="float: left;">
@@ -32,20 +32,22 @@
                 </div>
               </div>
             <div>
-              <table cellpadding="10" class="table table-striped table-hover">
+              <table cellpadding="10" class="table table-striped table-hover" style="text-align: center;">
                   <tr>
-                    <th>Tiêu đề</th>
-                    <th>Trạng thái</th>
-                    <th>Action</th>
+                      <th>Task ID</th>
+                      <th>Tiêu đề</th>
+                      <th>Trạng thái</th>
+                      <th>Action</th>
                   </tr>
                   <tr th:each="task: ${page.content}">
-                    <td th:text="${task.title}"></td>
-                    <td th:text="${task.action}"></td>
-                    <td>
-                      <a class="btn btn-primary" role="button" th:href="@{/tasks/editTask/{id}(id=${task.id})}">Edit</a>
-                      <a class="btn btn-primary" role="button" th:href="@{/tasks/detailTask/{id}(id=${task.id})}">Detail</a>
-                      <a class="btn btn-primary" role="button" th:href="@{/tasks/deleteTask/{id}(id=${task.id})}">Delete</a>
-                    </td>
+                      <td th:text="${task.id}"></td>
+                      <td th:text="${task.title}"></td>
+                      <td th:text="${task.action}"></td>
+                      <td>
+                        <a class="btn btn-primary" role="button" th:href="@{/tasks/editTask/{id}(id=${task.id})}">Edit</a>
+                        <a class="btn btn-primary" role="button" th:href="@{/tasks/detailTask/{id}(id=${task.id})}">Detail</a>
+                        <a class="btn btn-primary" role="button" th:href="@{/tasks/deleteTask/{id}(id=${task.id})}">Delete</a>
+                      </td>
                   </tr>
               </table>
             </div>
@@ -55,9 +57,21 @@
                 <li class="page-item">
                     <a class="page-link" href="page?p=0">First</a>
                 </li>
-                <li class="page-item"><a class="page-link" th:href="@{page?p={p}(p=${page.number}-1)}">Previous</a></li>
-                <li class="page-item disabled"><a class="page-link" tabindex="-1" aria-disabled="true" href="#" th:text="(${page.number}+1)"></a></li>
-                <li class="page-item"><a class="page-link" th:href="@{page?p={p}(p=${page.number}+1)}">Next</a></li>
+                <li class="page-item" th:classappend="(${page.number}>=1) ? '' : disabled">
+                    <a class="page-link" th:href="@{page?p={p}(p=${page.number}-1)}">Previous</a>
+                </li>
+                <li class="page-item" th:if="${page.number}>=1">
+                    <a class="page-link" th:href="@{page?p={p}(p=${page.number}-1)}" th:text="(${page.number})"></a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link" style="font-weight: bold;" tabindex="-1" aria-disabled="true" href="#" th:text="(${page.number}+1)"></a>
+                </li>
+                <li class="page-item" th:if="${page.number}<${page.totalPages}-1">
+                    <a class="page-link" th:href="@{page?p={p}(p=${page.number}+1)}" th:text="(${page.number}+2)"></a>
+                </li>
+                <li class="page-item" th:classappend="(${page.number}<${page.totalPages}-1) ? '' : disabled">
+                    <a class="page-link" th:href="@{page?p={p}(p=${page.number}+1)}">Next</a>
+                </li>
                 <li class="page-item">
                     <a class="page-link" th:href="@{page?p={p}(p=${page.totalPages}-1)}">Last</a>
                 </li>

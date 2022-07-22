@@ -20,12 +20,6 @@ public class taskController {
     @Autowired
     private taskService taskService;
 
-    @GetMapping("")
-    public String listTasks(Model model) {
-        model.addAttribute("tasks", taskService.getAllTask());
-        return "listTask";
-    }
-
     @GetMapping("/views/page")
     public String paginate(Model model, @RequestParam("p") Optional<Integer> p) {
         Pageable pageable = PageRequest.of(p.orElse(0), 7);

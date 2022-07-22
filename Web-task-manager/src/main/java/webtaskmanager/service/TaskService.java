@@ -2,43 +2,41 @@ package webtaskmanager.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import webtaskmanager.model.task;
-import webtaskmanager.repository.taskRepository;
+import webtaskmanager.model.Task;
+import webtaskmanager.repository.TaskRepository;
 
 import java.util.List;
 
 @Service
-public class taskService implements taskServiceimpl{
+public class TaskService implements TaskServiceimpl {
 
     @Autowired
-    taskRepository taskRepository;
+    TaskRepository taskRepository;
 
     @Override
-    public task createTask(task task) {
+    public Task createTask(Task task) {
         return taskRepository.save(task);
     }
 
     @Override
-    public task getTaskByCode(String id) {
+    public Task getTaskByCode(String id) {
         return taskRepository.findById(id).get();
     }
 
     @Override
-    public List<task> getAllTask() {
+    public List<Task> getAllTask() {
         return taskRepository.findAll();
     }
 
-    public Page<task> findAll(Pageable pageable) {
+    public Page<Task> findAll(Pageable pageable) {
         return taskRepository.findAll(pageable);
     }
 
     @Override
-    public task editTask(String id, task task) {
-        task t = taskRepository.findById(id).get();
+    public Task editTask(String id, Task task) {
+        Task t = taskRepository.findById(id).get();
         t.setTitle(task.getTitle());
         t.setDescription(task.getDescription());
         t.setAction(task.getAction());
@@ -46,7 +44,7 @@ public class taskService implements taskServiceimpl{
     }
 
     @Override
-    public void deleteTask(task task) {
+    public void deleteTask(Task task) {
         taskRepository.delete(task);
     }
 

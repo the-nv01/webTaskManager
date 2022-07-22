@@ -11,7 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Table
-public class task {
+public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;

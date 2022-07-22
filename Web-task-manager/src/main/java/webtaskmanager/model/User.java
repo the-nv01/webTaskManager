@@ -11,11 +11,16 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @Table
-public class user {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column
     private String username;
     private String password;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }

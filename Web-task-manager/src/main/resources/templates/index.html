@@ -15,6 +15,7 @@
 
             <input th:field="*{username}" type="text" id="inputEmail" class="form-control" placeholder="Username"  required="" autofocus="">
             <input th:field="*{password}" type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+            <p style="color: red" th:text="${message}"></p>
 
             <button class="btn btn-success btn-block" type="submit"><i class="fas fa-sign-in-alt"></i>Login</button>
             <hr>
@@ -61,7 +62,7 @@
             const repass = document.getElementById("user-repeatpass").value;
             const btn = document.getElementById("btn-confirm-signup");
             if(password != repass) {
-                document.getElementById("alert-repeatpass").innerText = "không trùng mật khẩu!!"
+                document.getElementById("alert-repeatpass").innerText = "không khớp mật khẩu!!"
                 btn.setAttribute("disabled", "disabled");
             }
             else {
@@ -69,6 +70,7 @@
                 btn.removeAttribute("disabled");
             }
         }
+
     </script>
 </body>
 </html>

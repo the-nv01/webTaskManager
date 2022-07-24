@@ -29,6 +29,7 @@ public class LoginController {
         if(userServiceimpl.checkUser(user) == true){
             return "redirect:/tasks/views/page";
         }
+        model.addAttribute("message", "Sai thông tin tài khoản hoặc mật khẩu");
         return "index";
     }
 

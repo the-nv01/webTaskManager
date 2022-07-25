@@ -21,7 +21,7 @@ public class LoginController {
     public String loginGet(Model model) {
         User user = new User();
         model.addAttribute("user", user);
-        return "index";
+        return "login";
     }
 
     @PostMapping("/login")
@@ -30,19 +30,19 @@ public class LoginController {
             return "redirect:/tasks/views/page";
         }
         model.addAttribute("message", "Sai thông tin tài khoản hoặc mật khẩu");
-        return "index";
+        return "login";
     }
 
     @GetMapping("/register")
     public String registerGet(Model model) {
         User user = new User();
         model.addAttribute("user", user);
-        return "index";
+        return "login";
     }
 
     @PostMapping("/register")
     public String registerPost(Model model, @ModelAttribute(name="user") User user) {
         userServiceimpl.createUser(user);
-        return "index";
+        return "login";
     }
 }

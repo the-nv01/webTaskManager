@@ -22,6 +22,7 @@ public class TaskController {
     @Autowired
     private TaskServiceimpl taskServiceimpl;
 
+    @ResponseBody
     @GetMapping("")
     public String search(Model model, @RequestParam("p") Optional<Integer> p, HttpServletRequest request){
         String action = request.getParameter("action")==null ? "" : request.getParameter("action");

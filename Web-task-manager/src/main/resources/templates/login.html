@@ -15,7 +15,7 @@
 
             <input th:field="*{username}" type="text" id="inputEmail" class="form-control" placeholder="Username"  required="" autofocus="" onkeyup="validatedForm()">
             <input th:field="*{password}" type="password" id="inputPassword" class="form-control" placeholder="Password" required="" onkeyup="validatedForm()">
-            <p style="color: red" id="alert-login" th:text="${message}"></p>
+            <p style="color: red" id="alert-login" th:text="${errorMessage}"></p>
 
             <button class="btn btn-success btn-block" id="btn-login" type="submit" disabled><i class="fas fa-sign-in-alt"></i>Login</button>
             <hr>
@@ -65,7 +65,14 @@
                 document.getElementById("alert-register").innerText = "Không khớp mật khẩu!!"
                 btn.setAttribute("disabled", "disabled");
             }
-            else {
+            else if(password.length<8) {
+                document.getElementById("alert-register").innerText = "Mật khẩu quá ngắn!!";
+                btn2.setAttribute("disabled", "disabled");
+            }
+            else if(password.length>256) {
+                document.getElementById("alert-register").innerText = "Mật khẩu quá dài!!";
+            }
+            else{
                 document.getElementById("alert-register").innerText = ""
                 btn.removeAttribute("disabled");
             }

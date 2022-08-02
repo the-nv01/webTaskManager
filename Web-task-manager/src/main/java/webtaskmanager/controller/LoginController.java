@@ -13,6 +13,7 @@ import webtaskmanager.service.UserServiceimpl;
 import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("")
@@ -44,7 +45,7 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public String registerPost(@ModelAttribute User user, BindingResult rs) {
+    public String registerPost(@Valid @ModelAttribute User user, BindingResult rs) {
         if(rs.hasErrors()) return "login";
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));

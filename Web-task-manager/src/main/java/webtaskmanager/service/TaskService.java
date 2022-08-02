@@ -1,5 +1,7 @@
 package webtaskmanager.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import webtaskmanager.model.Task;
 
 import java.util.List;
@@ -10,7 +12,7 @@ public interface TaskService {
 
     Task getTaskByCode(int id);
 
-    List<Task> getAllTasks ();
+    int countTasks ();
 
     void editTask (int id, Task task);
 

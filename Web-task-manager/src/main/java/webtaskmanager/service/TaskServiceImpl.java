@@ -1,21 +1,20 @@
 package webtaskmanager.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import webtaskmanager.model.Task;
 import webtaskmanager.repository.TaskRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
-public class TaskServiceimpl implements TaskService {
+public class TaskServiceImpl implements TaskService {
 
-    private final TaskRepository taskRepository;
+    @Autowired
+    private TaskRepository taskRepository;
 
     @Override
     public void createTask(Task task) {
@@ -27,9 +26,13 @@ public class TaskServiceimpl implements TaskService {
         return taskRepository.findById(id);
     }
 
+    public List<Task> getAllTasks(String title, String action, Pageable pageable) {
+        return taskRepository.findAllByPage(title, action, pageable.getOffset(), pageable.getPageSize());
+    }
+
     @Override
-    public List<Task> getAllTasks() {
-        return taskRepository.findAll();
+    public int countTasks() {
+        return taskRepository.countTasks();
     }
 
     @Override
@@ -42,8 +45,5 @@ public class TaskServiceimpl implements TaskService {
         taskRepository.delete(id);
     }
 
-    public Page<Task> search(String title, String action, Pageable pageable) {
-        return taskRepository.findAllByTitleContainingAndActionContainingOrderByIdAsc(title, action, pageable);
-    }
 
 }

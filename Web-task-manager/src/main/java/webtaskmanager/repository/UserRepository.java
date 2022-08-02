@@ -17,6 +17,6 @@ public interface UserRepository {
     public User findByUsername(String username);
 
     @Insert("INSERT INTO user(username, password) " +
-            " VALUES (#{user.getUsername}, #{user.getPassword}")
-    public void insert(User user);
+            " VALUES (#{username}, #{password})")
+    public void insert(String username, String password);
 }

@@ -3,6 +3,7 @@ package webtaskmanager.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -10,10 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import webtaskmanager.model.Task;
-import webtaskmanager.service.TaskServiceimpl;
+import webtaskmanager.service.TaskServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -21,17 +23,17 @@ import java.util.Optional;
 public class TaskController {
 
     @Autowired
-    private TaskServiceimpl taskServiceimpl;
+    private TaskServiceImpl taskServiceimpl;
 
     @GetMapping("")
-    public String liskTask(Model model, @RequestParam("p") Optional<Integer> p, HttpServletRequest request){
+    public String liskTask(Model model, @RequestParam Optional<Integer> p, HttpServletRequest request){
         String action = request.getParameter("action")==null ? "" : request.getParameter("action");
         String actionView = request.getParameter("action")==null ? "All" : request.getParameter("action");
         String pSearch = request.getParameter("pSearch")==null ? "" : request.getParameter("pSearch");
         if(action.equals("All")) {action = "";}
         Pageable pageable = PageRequest.of(p.orElse(0), 5);
-        Page<Task> page = taskServiceimpl.search(pSearch, action, pageable);
-
+        List<Task> listTask = taskServiceimpl.getAllTasks(pSearch, action, pageable);
+        Page<Task> page = new PageImpl<>(listTask, pageable, taskServiceimpl.countTasks());
         model.addAttribute("page", page);
         model.addAttribute("pSearch", pSearch);
         model.addAttribute("action", action);

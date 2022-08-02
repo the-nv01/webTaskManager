@@ -55,7 +55,7 @@
                       <td th:text="${task.id}"></td>
                       <td th:text="${task.title}"></td>
                       <td th:text="${task.action}"></td>
-                      <td>
+                      <td style="min-width: 300px">
                         <a class="btn btn-primary" role="button" th:href="@{/tasks/edit/{id}(id=${task.id})}">Edit</a>
                         <a class="btn btn-primary" role="button" th:href="@{/tasks/detail/{id}(id=${task.id})}">Detail</a>
                           <a class="btn btn-danger trigger-btn" data-toggle="modal" role="button" href="#myModal">Delete</a>

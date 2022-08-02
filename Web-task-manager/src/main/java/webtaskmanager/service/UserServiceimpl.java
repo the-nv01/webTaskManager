@@ -16,7 +16,7 @@ public class UserServiceimpl implements UserService {
 
     @Override
     public void createUser(User user) {
-        userRepository.insert(user);
+        userRepository.insert(user.getUsername(), user.getPassword());
     }
 
     @Override

@@ -1,10 +1,22 @@
 package webtaskmanager.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import webtaskmanager.model.Task;
 import webtaskmanager.model.User;
 
-@Repository
-public interface UserRepository extends JpaRepository<User, String> {
-    User findByUsername(String username);
+import java.util.List;
+
+@Mapper
+public interface UserRepository {
+    @Select("SELECT * FROM user")
+    public List<User> findAll();
+
+    @Select("SELECT * FROM user WHERE username=#{username}")
+    public User findByUsername(String username);
+
+    @Insert("INSERT INTO user(username, password) " +
+            " VALUES (#{user.getUsername}, #{user.getPassword}")
+    public void insert(User user);
 }

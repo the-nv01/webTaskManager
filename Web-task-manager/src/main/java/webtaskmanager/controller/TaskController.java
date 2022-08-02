@@ -8,9 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import webtaskmanager.model.Search;
 import webtaskmanager.model.Task;
 import webtaskmanager.service.TaskServiceimpl;
 
@@ -33,6 +31,7 @@ public class TaskController {
         if(action.equals("All")) {action = "";}
         Pageable pageable = PageRequest.of(p.orElse(0), 5);
         Page<Task> page = taskServiceimpl.search(pSearch, action, pageable);
+
         model.addAttribute("page", page);
         model.addAttribute("pSearch", pSearch);
         model.addAttribute("action", action);
@@ -42,7 +41,7 @@ public class TaskController {
 
     @GetMapping("/edit/{id}")
     public String editTaskGet(Model model, @PathVariable int id) {
-        Task t = taskServiceimpl.getTaskByCode(id).get();
+        Task t = taskServiceimpl.getTaskByCode(id);
         model.addAttribute("task", t);
         return "editTask";
     }
@@ -72,14 +71,14 @@ public class TaskController {
 
     @GetMapping("/detail/{id}")
     public String detailTaskGet(Model model, @PathVariable int id) {
-        Task t = taskServiceimpl.getTaskByCode(id).get();
+        Task t = taskServiceimpl.getTaskByCode(id);
         model.addAttribute("task", t);
         return "detailTask";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteTaskGet(@PathVariable int id) {
-        taskServiceimpl.deleteTask(taskServiceimpl.getTaskByCode(id).get());
+        taskServiceimpl.deleteTask(id);
         return "redirect:/tasks";
     }
 }

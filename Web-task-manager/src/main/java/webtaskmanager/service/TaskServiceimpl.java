@@ -18,36 +18,28 @@ public class TaskServiceimpl implements TaskService {
     private final TaskRepository taskRepository;
 
     @Override
-    public Task createTask(Task task) {
-        return taskRepository.save(task);
+    public void createTask(Task task) {
+        taskRepository.insert(task);
     }
 
     @Override
-    public Optional<Task> getTaskByCode(int id) {
+    public Task getTaskByCode(int id) {
         return taskRepository.findById(id);
     }
 
     @Override
-    public List<Task> getAllTask() {
-        return taskRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
-    }
-
-    public Page<Task> findAll(Pageable pageable) {
-        return taskRepository.findAll(pageable);
+    public List<Task> getAllTasks() {
+        return taskRepository.findAll();
     }
 
     @Override
-    public Task editTask(int id, Task task) {
-        Task t = taskRepository.findById(id).get();
-        t.setTitle(task.getTitle());
-        t.setDescription(task.getDescription());
-        t.setAction(task.getAction());
-        return taskRepository.save(t);
+    public void editTask(int id, Task task) {
+        taskRepository.update(id, task);
     }
 
     @Override
-    public void deleteTask(Task task) {
-        taskRepository.delete(task);
+    public void deleteTask(int id) {
+        taskRepository.delete(id);
     }
 
     public Page<Task> search(String title, String action, Pageable pageable) {

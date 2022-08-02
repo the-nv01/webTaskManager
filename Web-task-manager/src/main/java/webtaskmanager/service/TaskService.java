@@ -3,19 +3,18 @@ package webtaskmanager.service;
 import webtaskmanager.model.Task;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TaskService {
 
-    Task createTask (Task task);
+    void createTask (Task task);
 
-    Optional<Task> getTaskByCode (int id);
+    Task getTaskByCode(int id);
 
-    List<Task> getAllTask ();
+    List<Task> getAllTasks ();
 
-    Task editTask (int id, Task task);
+    void editTask (int id, Task task);
 
-    void deleteTask (Task task);
+    void deleteTask (int id);
 
 
 }

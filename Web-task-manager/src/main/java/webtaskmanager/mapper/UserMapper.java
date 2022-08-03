@@ -1,7 +1,7 @@
 package webtaskmanager.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 import webtaskmanager.model.User;
 
 import java.util.List;

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="webtaskmanager.mapper.UserMapper">
-    <insert id="insertUser">
+    <insert id="insertUser" parameterType="webtaskmanager.model.User">
         INSERT INTO user(username, password) VALUES (#{user.username},
                                                      #{user.password})
     </insert>
@@ -11,7 +11,7 @@
         SELECT * FROM user
     </select>
 
-    <select id="selectUserByUsername" parameterType="String" resultType="result">
+    <select id="selectUserByUsername" parameterType="String" resultType="webtaskmanager.model.User">
         SELECT * FROM user WHERE username=#{username}
     </select>
 

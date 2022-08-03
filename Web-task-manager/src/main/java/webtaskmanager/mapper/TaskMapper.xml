@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="Task">
-    <insert id="insertTask">
+<mapper namespace="webtaskmanager.mapper.TaskMapper">
+    <insert id="insertTask" parameterType="webtaskmanager.model.Task">
         INSERT INTO task (title, description, action) VALUES (#{task.getTitle()}, #{task.getDescription()}, #{task.getAction()});
     </insert>
 
@@ -18,15 +18,15 @@
         SELECT * FROM task;
     </select>
 
-    <select id="findById" parameterType="int" resultType="result">
+    <select id="findById" parameterType="int" resultType="webtaskmanager.model.Task">
         SELECT * FROM task WHERE ID = #{id};
     </select>
 
     <select id="countTasks" resultType="int">
         SELECT count(*) FROM task;
     </select>
-    
-    <select id="findAllByPage" resultType="result">
+
+    <select id="findAllByPage" resultType="webtaskmanager.model.Task">
         SELECT * FROM task WHERE title LIKE '%' #{title} '%'  AND action LIKE '%' #{action} '%' LIMIT #{pageable.offset}, #{pageable.pageSize};
     </select>
 

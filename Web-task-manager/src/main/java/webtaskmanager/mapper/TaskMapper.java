@@ -10,7 +10,6 @@ import webtaskmanager.model.Task;
 import java.util.List;
 
 @Mapper
-@Repository
 public interface TaskMapper {
 
     void insertTask(Task task);

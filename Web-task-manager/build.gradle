@@ -29,22 +29,14 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-security:2.7.2'
     implementation 'org.springframework.data:spring-data-commons:2.7.2'
-    implementation 'org.mybatis:mybatis-spring:2.0.6'
-    implementation 'org.mybatis:mybatis:3.5.6'
-    implementation 'org.springframework:spring-jdbc:5.3.18'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
     implementation 'org.mybatis.dynamic-sql:mybatis-dynamic-sql:1.4.0'
-
-
 
 }
 
 processResources {
     from('src/main/java') {
-        include '**/*.xml'
+        include('**/*.java')
+        include('**/*.xml')
     }
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
 }

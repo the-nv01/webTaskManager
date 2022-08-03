@@ -19,6 +19,11 @@
             <div class="form-outline mb-4">
                 <textarea class="form-control" id="form4Example3" rows="4" placeholder="Description" th:field="*{description}"></textarea>
             </div>
+            <div th:if="${#fields.hasAnyErrors()}">
+                <ul>
+                    <li th:each="err:${errors}" th:text="${err.getDefaultMessage()}" style="color: red; text-align: left;" />
+                </ul>
+            </div>
             <a class="btn btn-secondary btn-block mb-2" role="button" th:href="@{/tasks}">Cancel</a>
             <button type="submit" class="btn btn-primary btn-block mb-2">Create</button>
         </form>

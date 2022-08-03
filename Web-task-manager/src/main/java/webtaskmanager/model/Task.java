@@ -12,18 +12,13 @@ import javax.validation.constraints.NotBlank;
 public class Task {
     private int id;
 
-    @NotBlank
+    @NotBlank(message = "Title can't blank!!")
     private String title;
 
-    @NotBlank
+    @NotBlank(message = "Description can't blank!!")
     private String description;
 
     private String action = "Open";
-
-    public Task(String title, String description) {
-        this.title = title;
-        this.description = description;
-    }
 
     public int getId() {
         return id;

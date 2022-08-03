@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import webtaskmanager.model.Task;
 import webtaskmanager.service.TaskServiceImpl;
@@ -50,10 +51,14 @@ public class TaskController {
     }
 
     @PostMapping("/edit/{id}")
-    public String editTaskPost(@PathVariable int id,
+    public String editTaskPost(Model model,
                                @Valid @ModelAttribute Task task, BindingResult rs) {
-        if (rs.hasErrors()) return "editTask";
-        taskServiceimpl.updateTask(id, task);
+        if (rs.hasErrors() ) {
+            List<FieldError> fieldErrors = rs.getFieldErrors();
+            model.addAttribute("errors", fieldErrors);
+            return "editTask";
+        }
+        taskServiceimpl.updateTask(task);
         return "redirect:/tasks";
     }
 
@@ -64,8 +69,10 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String createTaskPost(@Valid @ModelAttribute Task task, BindingResult rs) {
-        if (rs.hasErrors()) {
+    public String createTaskPost(Model model, @Valid @ModelAttribute Task task, BindingResult rs) {
+        if (rs.hasErrors() ) {
+            List<FieldError> fieldErrors = rs.getFieldErrors();
+            model.addAttribute("errors", fieldErrors);
             return "createTask";
         }
         taskServiceimpl.insertTask(task);

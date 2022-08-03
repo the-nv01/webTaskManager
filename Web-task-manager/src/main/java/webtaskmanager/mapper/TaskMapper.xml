@@ -3,11 +3,11 @@
 
 <mapper namespace="webtaskmanager.mapper.TaskMapper">
     <insert id="insertTask" parameterType="webtaskmanager.model.Task">
-        INSERT INTO task (title, description, action) VALUES (#{task.getTitle()}, #{task.getDescription()}, #{task.getAction()});
+        INSERT INTO task (title, description, action) VALUES (#{task.title}, #{task.description}, #{task.action});
     </insert>
 
     <update id="updateTask">
-        UPDATE task WHERE id=#{id} SET title=#{task.getTitle()}, description=#{task.getDescription()}, action=#{task.getAction()};
+        UPDATE task SET title=#{task.title}, description=#{task.description}, action=#{task.action} WHERE id=#{task.id} ;
     </update>
 
     <delete id="deleteTask" parameterType="int">
@@ -26,8 +26,11 @@
         SELECT count(*) FROM task;
     </select>
 
-    <select id="findAllByPage" resultType="webtaskmanager.model.Task">
-        SELECT * FROM task WHERE title LIKE '%' #{title} '%'  AND action LIKE '%' #{action} '%' LIMIT #{pageable.offset}, #{pageable.pageSize};
+    <select id="findAllByPage" resultMap="result">
+        SELECT * FROM task
+        WHERE title LIKE '%' #{title} '%'
+        AND action LIKE '%' #{action} '%'
+        LIMIT #{pageable.offset}, #{pageable.pageSize};
     </select>
 
     <resultMap id = "result" type = "webtaskmanager.model.Task">

@@ -12,9 +12,9 @@ import java.util.List;
 @Mapper
 public interface TaskMapper {
 
-    void insertTask(Task task);
+    void insertTask(@Param("task") Task task);
 
-    void updateTask (@Param("id") int id, @Param("task") Task task);
+    void updateTask (@Param("task") Task task);
 
     void deleteTask (int id);
 

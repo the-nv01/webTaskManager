@@ -1,22 +1,22 @@
 package webtaskmanager.service;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import webtaskmanager.model.Task;
+import webtaskmanager.model.User;
 
 import java.util.List;
 
 public interface TaskService {
 
-    void createTask (Task task);
+    void insertTask(Task task);
 
-    Task getTaskByCode(int id);
+    Task findById(int id);
 
-    int countTasks ();
+    List<Task> findAllByPage(String title, String action, Pageable pageable);
 
-    void editTask (int id, Task task);
+    int countTasks();
 
-    void deleteTask (int id);
+    void updateTask(int id, Task task);
 
-
+    void deleteTask(int id);
 }

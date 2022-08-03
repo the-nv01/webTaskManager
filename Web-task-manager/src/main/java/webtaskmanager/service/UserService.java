@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface UserService {
 
-    void createUser (User user);
+    void insertUser(User user);
 
-    List<User> getAllUser();
+    List<User> findAllUsers();
 
-    boolean checkUser (User user);
+    User selectUserByUsername(String username);
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="webtaskmanager.mapper.UserMapper">
+    <insert id="insertUser">
+        INSERT INTO user(username, password) VALUES (#{user.username},
+                                                     #{user.password})
+    </insert>
+
+    <select id="findAllUsers" resultMap="result">
+        SELECT * FROM user
+    </select>
+
+    <select id="selectUserByUsername" parameterType="String" resultType="result">
+        SELECT * FROM user WHERE username=#{username}
+    </select>
+
+    <resultMap id = "result" type = "webtaskmanager.model.User">
+        <result property = "id" column = "ID"/>
+        <result property = "username" column = "USERNAME"/>
+        <result property = "password" column = "PASSWORD"/>
+    </resultMap>
+</mapper>

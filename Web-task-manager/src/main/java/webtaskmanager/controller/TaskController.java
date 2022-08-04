@@ -8,9 +8,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
@@ -34,6 +36,8 @@ public class TaskController {
 
     private final TaskServiceImpl taskServiceimpl;
 
+    private String success = null;
+
     @GetMapping("")
     public String liskTask(Model model, @RequestParam Optional<Integer> p, HttpServletRequest request){
         String action = request.getParameter("action")==null ? "" : request.getParameter("action");
@@ -48,6 +52,7 @@ public class TaskController {
         model.addAttribute("pSearch", pSearch);
         model.addAttribute("action", action);
         model.addAttribute("actionView", actionView);
+        model.addAttribute("success", success);
         return "listTask";
     }
 
@@ -59,15 +64,16 @@ public class TaskController {
     }
 
     @PostMapping("/edit/{id}")
-    public String editTaskPost(Model model,
-                               @Valid @ModelAttribute Task task, BindingResult rs) {
+    public ModelAndView editTaskPost(ModelMap model,
+                                     @Valid @ModelAttribute Task task, BindingResult rs) {
         if (rs.hasErrors() ) {
             List<FieldError> fieldErrors = rs.getFieldErrors();
             model.addAttribute("errors", fieldErrors);
-            return "editTask";
+            return new ModelAndView("editTask");
         }
+        success = "Success!";
         taskServiceimpl.updateTask(task);
-        return "redirect:/tasks";
+        return new ModelAndView("redirect:/tasks", model);
     }
 
     @GetMapping("/create")
@@ -83,6 +89,7 @@ public class TaskController {
             model.addAttribute("errors", fieldErrors);
             return "createTask";
         }
+        success = "Success!";
         taskServiceimpl.insertTask(task);
         return "redirect:/tasks";
     }
@@ -97,6 +104,7 @@ public class TaskController {
     @GetMapping("/delete/{id}")
     public String deleteTaskGet(@PathVariable int id) {
         taskServiceimpl.deleteTask(id);
+        success = "Success!";
         return "redirect:/tasks";
     }
 

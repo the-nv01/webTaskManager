@@ -53,6 +53,7 @@ public class TaskController {
         model.addAttribute("action", action);
         model.addAttribute("actionView", actionView);
         model.addAttribute("success", success);
+        success = null;
         return "listTask";
     }
 

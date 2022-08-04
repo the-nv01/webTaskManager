@@ -6,16 +6,17 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link href="styles/login.css" rel="stylesheet" type="text/css"/>
-    <link rel="shortcut icon" href="images/logo.png" />
 </head>
 <body>
     <div id="logreg-forms">
         <form class="form-signin" th:action="@{/login}" th:object="${user}" method="POST">
             <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign in</h1>
-
+            <div class="alert alert-warning" role="alert" th:if="${exist}!=null" th:text="${exist}" style="margin-bottom: 1rem;">
+            </div>
             <input th:field="*{username}" type="text" id="inputEmail" class="form-control" placeholder="Username"  required="" autofocus="" onkeyup="validatedForm()">
             <input th:field="*{password}" type="password" id="inputPassword" class="form-control" placeholder="Password" required="" onkeyup="validatedForm()">
-            <p style="color: red" id="alert-login" th:text="${errorMessage}"></p>
+            <div class="alert alert-danger" role="alert" th:if="${errorMessage}!=null" th:text="${errorMessage}" style="margin-top: 1rem;"></div>
+            <p id="alert-login" style="color: red"></p>
 
             <button class="btn btn-success btn-block" id="btn-login" type="submit" disabled><i class="fas fa-sign-in-alt"></i>Login</button>
             <hr>
@@ -72,7 +73,7 @@
             else if(password.length>256) {
                 document.getElementById("alert-register").innerText = "Mật khẩu quá dài!!";
             }
-            else{
+            else {
                 document.getElementById("alert-register").innerText = ""
                 btn.removeAttribute("disabled");
             }

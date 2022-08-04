@@ -11,6 +11,7 @@ import webtaskmanager.service.UserService;
 import webtaskmanager.service.UserServiceImpl;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("")
@@ -23,7 +24,7 @@ public class LoginController {
     public String loginFail(Model model) {
         User user = new User();
         model.addAttribute("user", user);
-        model.addAttribute("errorMessage", "Sai thong tin dang nhap!");
+        model.addAttribute("errorMessage", "Accessing the wrong information!!");
         return "login";
     }
 
@@ -42,8 +43,15 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public String registerPost(@Valid @ModelAttribute User user, BindingResult rs) {
+    public String registerPost(Model model, @Valid @ModelAttribute User user, BindingResult rs) {
         if(rs.hasErrors()) return "login";
+        List<User> list = userServiceImpl.findAllUsers();
+        for (User u : list) {
+            if (user.getUsername().equalsIgnoreCase(u.getUsername())) {
+                model.addAttribute("exist", "User already exist!!");
+                return "login";
+            }
+        }
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userServiceImpl.insertUser(user);

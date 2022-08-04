@@ -15,7 +15,8 @@
     </delete>
 
     <select id="findAllTasks" resultMap="result">
-        SELECT * FROM task;
+        SELECT * FROM task
+        ORDER BY id ASC;
     </select>
 
     <select id="findById" parameterType="int" resultType="webtaskmanager.model.Task">
@@ -23,13 +24,16 @@
     </select>
 
     <select id="countTasks" resultType="int">
-        SELECT count(*) FROM task;
+        SELECT count(*) FROM task
+        WHERE title LIKE '%' #{title} '%'
+        AND action LIKE '%' #{action} '%';
     </select>
 
     <select id="findAllByPage" resultMap="result">
         SELECT * FROM task
         WHERE title LIKE '%' #{title} '%'
         AND action LIKE '%' #{action} '%'
+        ORDER BY id ASC
         LIMIT #{pageable.offset}, #{pageable.pageSize};
     </select>
 

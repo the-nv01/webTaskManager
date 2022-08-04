@@ -10,11 +10,13 @@ public interface TaskService {
 
     void insertTask(Task task);
 
+    public List<Task> findAllTasks();
+
     Task findById(int id);
 
     List<Task> findAllByPage(String title, String action, Pageable pageable);
 
-    int countTasks();
+    int countTasks(String title, String action);
 
     void updateTask(Task task);
 

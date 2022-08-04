@@ -20,6 +20,9 @@ public class TaskServiceImpl implements TaskService{
     }
 
     @Override
+    public List<Task> findAllTasks() { return taskMapper.findAllTasks();}
+
+    @Override
     public Task findById(int id) {
         return taskMapper.findById(id);
     }
@@ -30,8 +33,8 @@ public class TaskServiceImpl implements TaskService{
     }
 
     @Override
-    public int countTasks() {
-        return taskMapper.countTasks();
+    public int countTasks(String title, String action) {
+        return taskMapper.countTasks(title, action);
     }
 
     @Override

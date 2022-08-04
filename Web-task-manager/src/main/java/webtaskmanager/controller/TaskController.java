@@ -2,7 +2,6 @@ package webtaskmanager.controller;
 
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -12,11 +11,19 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.prefs.CsvPreference;
 import webtaskmanager.model.Task;
 import webtaskmanager.service.TaskServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +42,8 @@ public class TaskController {
         if(action.equals("All")) {action = "";}
         Pageable pageable = PageRequest.of(p.orElse(0), 5);
         List<Task> listTask = taskServiceimpl.findAllByPage(pSearch, action, pageable);
-        Page<Task> page = new PageImpl<>(listTask, pageable, taskServiceimpl.countTasks());
+        int countTask = taskServiceimpl.countTasks(pSearch, action);
+        Page<Task> page = new PageImpl<>(listTask, pageable, countTask);
         model.addAttribute("page", page);
         model.addAttribute("pSearch", pSearch);
         model.addAttribute("action", action);
@@ -90,5 +98,31 @@ public class TaskController {
     public String deleteTaskGet(@PathVariable int id) {
         taskServiceimpl.deleteTask(id);
         return "redirect:/tasks";
+    }
+
+    @GetMapping("/export")
+    public void exportToCSV(HttpServletResponse response) throws IOException {
+        response.setContentType("text/csv");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=users_" + currentDateTime + ".csv";
+        response.setHeader(headerKey, headerValue);
+
+        List<Task> listTasks = taskServiceimpl.findAllTasks();
+
+        ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(), CsvPreference.STANDARD_PREFERENCE);
+        String[] csvHeader = {"Task ID", "Title", "Description", "Action"};
+        String[] nameMapping = {"id", "title", "description", "action"};
+
+        csvWriter.writeHeader(csvHeader);
+
+        for (Task task : listTasks) {
+            csvWriter.write(task, nameMapping);
+        }
+
+        csvWriter.close();
+
     }
 }

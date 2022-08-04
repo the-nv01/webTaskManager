@@ -3,8 +3,6 @@ package webtaskmanager.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import webtaskmanager.model.Task;
 
 import java.util.List;
@@ -22,7 +20,8 @@ public interface TaskMapper {
 
     Task findById (int id);
 
-    int countTasks ();
+    int countTasks (@Param("title") String title,
+                    @Param("action") String action);
 
     List<Task> findAllByPage (@Param("title") String title,
                               @Param("action") String action,

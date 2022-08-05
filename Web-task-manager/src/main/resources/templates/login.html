@@ -13,8 +13,8 @@
             <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign in</h1>
             <div class="alert alert-warning" role="alert" th:if="${exist}!=null" th:text="${exist}" style="margin-bottom: 1rem;">
             </div>
-            <input th:field="*{username}" type="text" id="inputEmail" class="form-control" placeholder="Username"  required="" autofocus="" onkeyup="validatedForm()">
-            <input th:field="*{password}" type="password" id="inputPassword" class="form-control" placeholder="Password" required="" onkeyup="validatedForm()">
+            <input th:field="*{username}" type="text" id="inputEmail" class="form-control" placeholder="Username"  required="" autofocus="">
+            <input th:field="*{password}" type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
             <div class="alert alert-danger" role="alert" th:if="${errorMessage}!=null" th:text="${errorMessage}" style="margin-top: 1rem;"></div>
             <p id="alert-login" style="color: red"></p>
 
@@ -26,8 +26,8 @@
         <form th:action="@{/register}" th:object="${user}" method="POST" class="form-signup">
             <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign up</h1>
             <input th:field="*{username}" type="text" id="user-name" class="form-control" placeholder="Username" required="" autofocus="" onkeyup="validatedForm()">
-            <input th:field="*{password}" type="password" id="user-pass" class="form-control" placeholder="Password" required autofocus="" onkeyup="validatedForm()">
-            <input type="password" id="user-repeatpass" class="form-control" placeholder="Repeat Password" onkeyup="mismatched()" required autofocus="">
+            <input th:field="*{password}" type="password" id="user-pass" class="form-control" placeholder="Password" required onkeyup="validatedForm()">
+            <input type="password" id="user-repeatpass" class="form-control" placeholder="Repeat Password" onkeyup="mismatched()" required>
             <p id="alert-register" style="color: red"></p>
 
             <button class="btn btn-primary btn-block" id="btn-confirm-signup" type="submit" disabled><i class="fas fa-user-plus"></i> Sign Up</button>
@@ -73,7 +73,7 @@
         }
 
         function validatedForm() {
-            let pass1 = document.getElementById("inputPassword").value;
+            let email2 = document.getElementById("user-name").value;
             let pass2 = document.getElementById("user-pass").value;
             let btn2 = document.getElementById("btn-confirm-signup");
 

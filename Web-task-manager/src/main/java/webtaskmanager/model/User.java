@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 
 @Data
@@ -14,9 +15,11 @@ public class User {
     private int id;
 
     @NotNull
+    @Pattern(regexp = "^[A-Za-z0-9]*$", message = "Username cannot have special characters!!")
     private String username;
 
     @NotNull
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*[0-9])[A-Za-z0-9]{8,}$", message = "Password must minimum eight characters, at least one letter and one number!!")
     private String password;
 
     public User(String username, String password) {

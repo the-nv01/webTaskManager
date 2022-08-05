@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.util.matcher.AndRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import webtaskmanager.service.CustomUserDetailsService;
 
 @Configuration
@@ -54,8 +56,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/login", "/register").anonymous()
-                .antMatchers("/*")
+                .antMatchers("/login", "/register", "/styles/*").anonymous()
+                .antMatchers("/**")
                 .authenticated()
                 .anyRequest().permitAll()
                 .and()
@@ -66,8 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .defaultSuccessUrl("/tasks")
                 .permitAll()
                 .and()
-                .logout()
-                .logoutSuccessUrl("/")
-                .permitAll();
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login");
     }
 }

@@ -17,7 +17,7 @@ import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 import webtaskmanager.model.Task;
-import webtaskmanager.service.TaskServiceImpl;
+import webtaskmanager.service.TaskService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +34,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TaskController {
 
-    private final TaskServiceImpl taskServiceimpl;
+    private final TaskService taskService;
 
     private String success = null;
 
@@ -45,8 +45,8 @@ public class TaskController {
         String pSearch = request.getParameter("pSearch")==null ? "" : request.getParameter("pSearch");
         if(action.equals("All")) {action = "";}
         Pageable pageable = PageRequest.of(p.orElse(0), 5);
-        List<Task> listTask = taskServiceimpl.findAllByPage(pSearch, action, pageable);
-        int countTask = taskServiceimpl.countTasks(pSearch, action);
+        List<Task> listTask = taskService.findAllByPage(pSearch, action, pageable);
+        int countTask = taskService.countTasks(pSearch, action);
         Page<Task> page = new PageImpl<>(listTask, pageable, countTask);
         model.addAttribute("page", page);
         model.addAttribute("pSearch", pSearch);
@@ -59,7 +59,7 @@ public class TaskController {
 
     @GetMapping("/edit/{id}")
     public String editTaskGet(Model model, @PathVariable int id) {
-        Task t = taskServiceimpl.findById(id);
+        Task t = taskService.findById(id);
         model.addAttribute("task", t);
         return "editTask";
     }
@@ -73,7 +73,7 @@ public class TaskController {
             return new ModelAndView("editTask");
         }
         success = "Success!";
-        taskServiceimpl.updateTask(task);
+        taskService.updateTask(task);
         return new ModelAndView("redirect:/tasks", model);
     }
 
@@ -91,20 +91,20 @@ public class TaskController {
             return "createTask";
         }
         success = "Success!";
-        taskServiceimpl.insertTask(task);
+        taskService.insertTask(task);
         return "redirect:/tasks";
     }
 
     @GetMapping("/detail/{id}")
     public String detailTaskGet(Model model, @PathVariable int id) {
-        Task t = taskServiceimpl.findById(id);
+        Task t = taskService.findById(id);
         model.addAttribute("task", t);
         return "detailTask";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteTaskGet(@PathVariable int id) {
-        taskServiceimpl.deleteTask(id);
+        taskService.deleteTask(id);
         success = "Success!";
         return "redirect:/tasks";
     }
@@ -119,7 +119,7 @@ public class TaskController {
         String headerValue = "attachment; filename=users_" + currentDateTime + ".csv";
         response.setHeader(headerKey, headerValue);
 
-        List<Task> listTasks = taskServiceimpl.findAllTasks();
+        List<Task> listTasks = taskService.findAllTasks();
 
         ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(), CsvPreference.STANDARD_PREFERENCE);
         String[] csvHeader = {"Task ID", "Title", "Description", "Action"};

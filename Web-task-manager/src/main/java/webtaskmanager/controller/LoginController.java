@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import webtaskmanager.model.User;
 import webtaskmanager.service.UserService;
-import webtaskmanager.service.UserServiceImpl;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
 public class LoginController {
 
     @Autowired
-    private UserService userServiceImpl;
+    private UserService userService;
 
     @GetMapping("/login-fail")
     public String loginFail(Model model) {
@@ -44,8 +44,12 @@ public class LoginController {
 
     @PostMapping("/register")
     public String registerPost(Model model, @Valid @ModelAttribute User user, BindingResult rs) {
-        if(rs.hasErrors()) return "login";
-        List<User> list = userServiceImpl.findAllUsers();
+        if(rs.hasErrors()) {
+            FieldError fieldError = rs.getFieldError();
+            model.addAttribute("exist", fieldError.getDefaultMessage());
+            return "login";
+        }
+        List<User> list = userService.findAllUsers();
         for (User u : list) {
             if (user.getUsername().equalsIgnoreCase(u.getUsername())) {
                 model.addAttribute("exist", "User already exist!!");
@@ -54,7 +58,7 @@ public class LoginController {
         }
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userServiceImpl.insertUser(user);
+        userService.insertUser(user);
         return "login";
     }
 

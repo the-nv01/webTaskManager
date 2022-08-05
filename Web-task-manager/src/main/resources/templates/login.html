@@ -66,13 +66,6 @@
                 document.getElementById("alert-register").innerText = "Không khớp mật khẩu!!"
                 btn.setAttribute("disabled", "disabled");
             }
-            else if(password.length<8) {
-                document.getElementById("alert-register").innerText = "Mật khẩu quá ngắn!!";
-                btn2.setAttribute("disabled", "disabled");
-            }
-            else if(password.length>256) {
-                document.getElementById("alert-register").innerText = "Mật khẩu quá dài!!";
-            }
             else {
                 document.getElementById("alert-register").innerText = ""
                 btn.removeAttribute("disabled");
@@ -80,32 +73,9 @@
         }
 
         function validatedForm() {
-            let email1 = document.getElementById("inputEmail").value;
-            let email2 = document.getElementById("user-name").value;
             let pass1 = document.getElementById("inputPassword").value;
             let pass2 = document.getElementById("user-pass").value;
-            let btn1 = document.getElementById("btn-login");
             let btn2 = document.getElementById("btn-confirm-signup");
-
-            if(email1.length<3) {
-                document.getElementById("alert-login").innerText = "Tên tài khoản quá ngắn!!";
-                btn1.setAttribute("disabled", "disabled");
-            }
-            else if(email1.length>256) {
-                document.getElementById("alert-login").innerText = "Tên tài khoản quá dài!!";
-            }
-            else if(pass1.length<8) {
-                document.getElementById("alert-login").innerText = "Mật khẩu quá ngắn!!";
-                btn1.setAttribute("disabled", "disabled");
-            }
-            else if(pass1.length>256) {
-                document.getElementById("alert-login").innerText = "Mật khẩu quá dài!!";
-            }
-            else {
-                document.getElementById("alert-login").innerText = "";
-                btn1.removeAttribute("disabled");
-
-            }
 
             if(email2.length<3) {
                 document.getElementById("alert-register").innerText = "Tên tài khoản quá ngắn!!";

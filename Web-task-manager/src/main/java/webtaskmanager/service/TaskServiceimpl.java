@@ -1,14 +1,15 @@
 package webtaskmanager.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import webtaskmanager.model.Task;
 import webtaskmanager.repository.TaskRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,13 +23,13 @@ public class TaskServiceimpl implements TaskService {
     }
 
     @Override
-    public Task getTaskByCode(String id) {
-        return taskRepository.findById(id).get();
+    public Optional<Task> getTaskByCode(int id) {
+        return taskRepository.findById(id);
     }
 
     @Override
     public List<Task> getAllTask() {
-        return taskRepository.findAll();
+        return taskRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
     public Page<Task> findAll(Pageable pageable) {
@@ -36,7 +37,7 @@ public class TaskServiceimpl implements TaskService {
     }
 
     @Override
-    public Task editTask(String id, Task task) {
+    public Task editTask(int id, Task task) {
         Task t = taskRepository.findById(id).get();
         t.setTitle(task.getTitle());
         t.setDescription(task.getDescription());
@@ -50,7 +51,7 @@ public class TaskServiceimpl implements TaskService {
     }
 
     public Page<Task> search(String title, String action, Pageable pageable) {
-        return taskRepository.findAllByTitleContainingAndActionContaining(title, action, pageable);
+        return taskRepository.findAllByTitleContainingAndActionContainingOrderByIdAsc(title, action, pageable);
     }
 
 }
